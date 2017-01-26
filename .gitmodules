@@ -1,0 +1,3 @@
+[submodule "autoscheduler-web-interface"]
+	path = autoscheduler-web-interface
+	url = https://github.com/Brcinko/autoscheduler-web-interface
