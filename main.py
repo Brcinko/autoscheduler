@@ -11,7 +11,7 @@ import helpers
 import pprint
 
 test_input = {
-    'filters': ['RamFilter', 'CoreFilter', 'ComputeFilter']
+    'filters': ['CoreFilter', 'ComputeFilter', 'RamFilter']
 }
 
 config = {
@@ -21,7 +21,7 @@ config = {
             "conf_status": "on"
         },
         {
-            "filter_name": "CoreFiler",
+            "filter_name": "CoreFilter",
             "conf_status": "on"
         },
         {
@@ -33,7 +33,7 @@ config = {
             "conf_status": "on"
         },
         {
-            "filter_name": "ComputeFiler",
+            "filter_name": "ComputeFilter",
             "conf_status": "on"
         },
         {

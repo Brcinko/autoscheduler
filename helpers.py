@@ -7,6 +7,7 @@
 import datetime
 import pprint
 
+
 def create_conf_doc(doc_definition, configurations):
     # pprint.pprint(doc_definition[0]['settings'][0]['filter_name'])
     document = {}
@@ -16,9 +17,9 @@ def create_conf_doc(doc_definition, configurations):
     document['meta']['doc_version'] = doc_definition[0]['meta']['doc_version']
     # settings - filters
     document['settings'] = []
-    pprint.pprint(configurations['filters'])
     for d in doc_definition[0]['settings']:
         if d['filter_name'] in configurations['filters']:
+            print d['filter_name']
             documentx = {}
             documentx['conf_status'] = 'on'
             documentx['filter_name'] = d['filter_name']
@@ -28,5 +29,5 @@ def create_conf_doc(doc_definition, configurations):
             documentx['conf_status'] = 'off'
             documentx['filter_name'] = d['filter_name']
             document['settings'].append(documentx)
-    pprint.pprint(document)
+    # pprint.pprint(document)
     return document

@@ -16,7 +16,7 @@ def set_config(config_request):
     conf_line = create_config_line(config_request['filters'])
     file = read_conf_file()
     validation_result = config_file_validation(file)
-    print str(validation_result)
+    # print str(validation_result)
 
     if validation_result['empty_filters'] is True:
         # scheduler_default_filters is missing
