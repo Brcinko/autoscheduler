@@ -45,5 +45,6 @@ def get_max_date_document(collection):
     return document
 
 
-def add_document():
-    pass
+def add_document(collection, query):
+    doc_id = collection.insert_one(query).inserted_id
+    return doc_id

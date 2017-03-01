@@ -6,8 +6,38 @@
 
 from settings import NOVA_CONF_FILE
 from scheduler_configurator import set_config
-
+import helpers
 import pprint
+
+
+config = {
+    'settings': [
+        {
+            "filter_name": "RamFilter",
+            "conf_status": "on"
+        },
+        {
+            "filter_name": "CoreFiler",
+            "conf_status": "on"
+        },
+        {
+            "filter_name": "IoOpsFilter",
+            "conf_status": "off"
+        },
+        {
+            "filter_name": "DiskFilter",
+            "conf_status": "on"
+        },
+        {
+            "filter_name": "ComputeFiler",
+            "conf_status": "on"
+        },
+        {
+            "filter_name": "JSONFilter",
+            "conf_status": "on"
+        }
+    ]
+}
 
 
 def auto_scheduling():
@@ -17,4 +47,4 @@ def auto_scheduling():
 
 
 def update_config_db():
-    pass
+    helpers.create_conf_doc()
