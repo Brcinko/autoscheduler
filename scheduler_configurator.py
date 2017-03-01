@@ -20,6 +20,7 @@ def set_config(config_request):
 
     if validation_result['empty_filters'] is True:
         # scheduler_default_filters is missing
+        # TODO find position
         file.insert(validation_result['position'], conf_line)
     else:
         # scheduler_default_filters is present
@@ -29,6 +30,7 @@ def set_config(config_request):
                 file[i] = conf_line
                 break
             i += 1
+    write_into_conf_file(file)
     # pprint.pprint(file)
 
 
@@ -42,6 +44,7 @@ def create_config_line(filters):
             config_string += ', '
             config_string += f
         i +=1
+    config_string += '\n'
     return config_string
 
 
@@ -50,6 +53,13 @@ def read_conf_file():
         content = f.readlines()
     # print content
     return content
+
+
+def write_into_conf_file(conf):
+    data = open(NOVA_CONF_FILE, "w")
+    for c in conf:
+        data.write(c)
+    data.close()
 
 
 def config_file_validation(file):
