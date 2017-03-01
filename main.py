@@ -5,11 +5,16 @@
 """
 
 from settings import NOVA_CONF_FILE
-from scheduler-configurator import set_config()
+from scheduler_configurator import set_config
 
 import pprint
 
 
 def auto_scheduling():
-    # TODO modul from statistic analyze
+    # TODO module from statistic analyze
     set_config()
+    update_config_db()
+
+
+def update_config_db():
+    pass
