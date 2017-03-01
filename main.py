@@ -10,6 +10,7 @@ import db_connector
 import helpers
 import pprint
 
+# response from data analysis should be in this format
 test_input = {
     'filters': ['CoreFilter', 'ComputeFilter', 'RamFilter']
 }
@@ -50,6 +51,10 @@ def auto_scheduling():
 
     # TODO module from statistic analyze
     set_config(test_input)
+    update_config_db(db=db)
+
+
+def update_config_db(db):
     # Get collection
     collection = db_connector.get_collection(collection_name='configurations', db=db)
     # Get 'configurations' document definition
@@ -61,10 +66,6 @@ def auto_scheduling():
     conf = test_input
     doc = helpers.create_conf_doc(doc_definition=doc_definition, configurations=conf)
     #insert into DB
-    update_config_db(collection, doc)
-
-
-def update_config_db(collection_name, documet):
-    pass
+    db_connector.add_document(collection=collection, query=doc)
 
 auto_scheduling()
