@@ -12,14 +12,15 @@ test_input = {
 
 
 def set_config(config_request):
-    conf_line = create_config_line(test_input['filters'])
+    # pprint.pprint(config_request)
+    conf_line = create_config_line(config_request['filters'])
     file = read_conf_file()
     validation_result = config_file_validation(file)
     print str(validation_result)
 
     if validation_result['empty_filters'] is True:
         # scheduler_default_filters is missing
-        file.insert(conf_line, validation_result['position'])
+        file.insert(validation_result['position'], conf_line)
     else:
         # scheduler_default_filters is present
         i = 0
@@ -28,7 +29,7 @@ def set_config(config_request):
                 file[i] = conf_line
                 break
             i += 1
-    pprint.pprint(file)
+    # pprint.pprint(file)
 
 
 def create_config_line(filters):
@@ -57,15 +58,14 @@ def config_file_validation(file):
     # TODO Validation of integration of config file with autoschEDUler
     pass
     validation = {}
-    empty_filters_flag = False
+    empty_filters_flag = True
     i = 0
     for f in file:
         if f[:25] == 'scheduler_default_filters':
+            empty_filters_flag = False
             break
         i += 1
         empty_filters_flag = True
     validation['empty_filters'] = empty_filters_flag
     validation['position'] = i
     return validation
-
-set_config("")

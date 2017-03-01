@@ -6,9 +6,13 @@
 
 from settings import NOVA_CONF_FILE
 from scheduler_configurator import set_config
+import db_connector
 import helpers
 import pprint
 
+test_input = {
+    'filters': ['RamFilter', 'CoreFilter', 'ComputeFilter']
+}
 
 config = {
     'settings': [
@@ -41,10 +45,26 @@ config = {
 
 
 def auto_scheduling():
+    # connect to DB
+    db = db_connector.connect_to_db()
+
     # TODO module from statistic analyze
-    set_config()
-    update_config_db()
+    set_config(test_input)
+    # Get collection
+    collection = db_connector.get_collection(collection_name='configurations', db=db)
+    # Get 'configurations' document definition
+    query = {}
+    query['meta.definition'] = True
+    doc_definition = db_connector.get_documents(collection=collection, query=query)
+    # Create document
+    # TODO toto zmenit na produkciu
+    conf = test_input
+    doc = helpers.create_conf_doc(doc_definition=doc_definition, configurations=conf)
+    #insert into DB
+    update_config_db(collection, doc)
 
 
-def update_config_db():
-    helpers.create_conf_doc()
+def update_config_db(collection_name, documet):
+    pass
+
+auto_scheduling()
