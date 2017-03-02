@@ -15,35 +15,6 @@ test_input = {
     'filters': ['CoreFilter', 'ComputeFilter', 'RamFilter']
 }
 
-config = {
-    'settings': [
-        {
-            "filter_name": "RamFilter",
-            "conf_status": "on"
-        },
-        {
-            "filter_name": "CoreFilter",
-            "conf_status": "on"
-        },
-        {
-            "filter_name": "IoOpsFilter",
-            "conf_status": "off"
-        },
-        {
-            "filter_name": "DiskFilter",
-            "conf_status": "on"
-        },
-        {
-            "filter_name": "ComputeFilter",
-            "conf_status": "on"
-        },
-        {
-            "filter_name": "JSONFilter",
-            "conf_status": "on"
-        }
-    ]
-}
-
 
 def auto_scheduling():
     # connect to DB

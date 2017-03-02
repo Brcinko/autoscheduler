@@ -16,7 +16,7 @@ def set_config(config_request):
     conf_line = create_config_line(config_request['filters'])
     file = read_conf_file()
     validation_result = config_file_validation(file)
-    # print str(validation_result)
+    print str(validation_result)
 
     if validation_result['empty_filters'] is True:
         # scheduler_default_filters is missing
@@ -76,6 +76,15 @@ def config_file_validation(file):
             break
         i += 1
         empty_filters_flag = True
+    # if filter configuration line is missing
+    if empty_filters_flag is True:
+        i = 0
+        for f in file:
+            # right side of condition is not working, i am fine with that
+            if f[:9] == 'scheduler' and ('scheduler' not in file[i+1] or '#' not in file[i+1]):
+                print(str(file[i+1]))
+                break
+            i += 1
     validation['empty_filters'] = empty_filters_flag
     validation['position'] = i
     return validation
