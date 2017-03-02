@@ -31,3 +31,19 @@ def create_conf_doc(doc_definition, configurations):
             document['settings'].append(documentx)
     # pprint.pprint(document)
     return document
+
+
+def create_hosts_list_doc(doc_definition, hosts_list):
+    document = {}
+    # metadata
+    document['meta'] = {}
+    document['meta']['date'] = datetime.datetime.utcnow()
+    document['meta']['doc_version'] = doc_definition[0]['meta']['doc_version']
+    # hosts
+    document['hosts'] = []
+    for h in hosts_list['hosts']:
+        hostx = {}
+        hostx['host_name'] = h
+        document['hosts']. append(hostx)
+    pprint.pprint(document)
+    return document

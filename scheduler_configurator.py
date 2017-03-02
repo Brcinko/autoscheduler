@@ -12,15 +12,13 @@ test_input = {
 
 
 def set_config(config_request):
-    # pprint.pprint(config_request)
     conf_line = create_config_line(config_request['filters'])
     file = read_conf_file()
     validation_result = config_file_validation(file)
-    print str(validation_result)
+    # print str(validation_result)
 
     if validation_result['empty_filters'] is True:
         # scheduler_default_filters is missing
-        # TODO find position
         file.insert(validation_result['position'], conf_line)
     else:
         # scheduler_default_filters is present
@@ -82,8 +80,7 @@ def config_file_validation(file):
         for f in file:
             # right side of condition is not working, i am fine with that
             if f[:9] == 'scheduler' and ('scheduler' not in file[i+1] or '#' not in file[i+1]):
-                print(str(file[i+1]))
-                break
+                 break
             i += 1
     validation['empty_filters'] = empty_filters_flag
     validation['position'] = i
