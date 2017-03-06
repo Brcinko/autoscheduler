@@ -7,6 +7,36 @@
 import datetime
 import pprint
 
+hosts_list = {
+    "hosts": [
+        {
+            "host_name": "b6e4adbc193d428ea923899d07fb001e",
+            "service": "conductor",
+            "zone": "internal"
+        },
+        {
+            "host_name": "09c025b0efc64211bd23fc50fa974cdf",
+            "service": "compute",
+            "zone": "nova"
+        },
+        {
+            "host_name": "e73ec0bd35c64de4a1adfa8b8969a1f6",
+            "service": "consoleauth",
+            "zone": "internal"
+        },
+        {
+            "host_name": "396a8a0a234f476eb05fb9fbc5802ba7",
+            "service": "network",
+            "zone": "internal"
+        },
+        {
+            "host_name": "abffda96592c4eacaf4111c28fddee17",
+            "service": "scheduler",
+            "zone": "internal"
+        }
+    ]
+}
+
 
 def create_conf_doc(doc_definition, configurations):
     # pprint.pprint(doc_definition[0]['settings'][0]['filter_name'])
@@ -47,3 +77,21 @@ def create_hosts_list_doc(doc_definition, hosts_list):
         document['hosts']. append(hostx)
     pprint.pprint(document)
     return document
+
+
+# get list of physical servers from OpenStack
+def get_host_list():
+    # possible way, with following command
+    # https://ask.openstack.org/en/question/67928/list-of-available-hosts/
+
+    # other way - API call GET /os-hosts
+    # https://developer.openstack.org/api-ref/compute/?expanded=list-hosts-detail
+
+    hosts = {}
+    hosts['hosts'] = []
+    for h in hosts_list['hosts']:
+        hosts['hosts'].append(h['host_name'])
+
+    # unique list records - first option has a duplicated values
+    hosts['hosts'] = list(set(hosts['hosts']))
+    return hosts
