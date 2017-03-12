@@ -12,9 +12,12 @@ import pprint
 
 # response from data analysis should be in this format
 test_input = {
-    'filters': ['CoreFilter', 'ComputeFilter', 'RamFilter']
-}
+    'filters': ['CoreFilter', 'ComputeFilter', 'RamFilter'],
+    'weight_type': [],
+    'weights': {
 
+    }
+}
 
 
 def auto_scheduling():
@@ -38,7 +41,8 @@ def update_config_db(db):
     # Get 'configurations' document definition
     query = {}
     query['meta.definition'] = True
-    doc_definition = db_connector.get_documents(collection=collection, query=query)
+    query['meta.doc_version'] = -1  # DESCENDING ORDERING
+    doc_definition = db_connector.get_sorted_documents(collection=collection, query=query)
     # Create document
     # TODO toto zmenit na produkciu
     conf = test_input
@@ -53,7 +57,8 @@ def update_hosts_list_db(db, host_list):
     # Get 'configurations' document definition
     query = {}
     query['meta.definition'] = True
-    doc_definition = db_connector.get_documents(collection=collection, query=query)
+    query['meta.doc_version'] = -1  # DESCENDING ORDERING
+    doc_definition = db_connector.get_sorted_documents(collection=collection, query=query)
     doc = helpers.create_hosts_list_doc(doc_definition=doc_definition, hosts_list=host_list)
     # insert into DB
     db_connector.add_document(collection=collection, query=doc)

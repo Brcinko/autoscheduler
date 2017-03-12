@@ -45,6 +45,18 @@ def get_max_date_document(collection):
     return document
 
 
+def get_sorted_documents(collection, query):
+    data = collection.find().sort(query)
+    documents = list()
+    for d in data:
+        doc = json.loads(json_util.dumps(d))
+        doc['_id'] = str(d['_id'])
+        doc['meta']['date'] = str(d['meta']['date'])
+        # print str(doc)
+        documents.append(doc)
+    return documents
+
+
 def add_document(collection, query):
     doc_id = collection.insert_one(query).inserted_id
     return doc_id
