@@ -13,10 +13,16 @@ import pprint
 # response from data analysis should be in this format
 test_input = {
     'filters': ['CoreFilter', 'ComputeFilter', 'RamFilter'],
-    'weight_type': [],
-    'weights': {
-
-    }
+    'weights': [
+        {
+            'weight_name': 'ram_weight',
+            'weight_value': 1.0
+        },
+        {
+            'weight_name': 'io_ops_weight',
+            'weight_value': 1.0
+        }
+    ]
 }
 
 
