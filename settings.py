@@ -15,6 +15,8 @@ WEIGHTS_DICTIONARY = [
     }
 ]
 
+DEFAULT_FILTERS = ['CoreFilter', 'ComputeFilter', 'RamFilter']
+
 
 # Database settings #
 DB_PORT = 27017

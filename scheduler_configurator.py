@@ -18,7 +18,6 @@ def set_config(config_request):
     for v in validation_result['weights']['weights_type']:
         del(file[v['position']])
 
-
     if validation_result['filters']['empty_filters'] is True:
         # scheduler_default_filters line is missing
         file.insert(validation_result['filters']['position'], filter_conf_line)
@@ -31,7 +30,6 @@ def set_config(config_request):
         file[validation_result['weights']['position']] = weight_conf_line
 
     write_into_conf_file(file)
-
 
 
 def create_filter_config_lines(filters):
