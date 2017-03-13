@@ -14,17 +14,17 @@ def set_config(config_request):
     validation_result = config_file_validation(file)
     # print str(validation_result)
 
-    if validation_result['empty_filters'] is True:
-        # scheduler_default_filters is missing
-        file.insert(validation_result['position'], filter_conf_line)
+    if validation_result['filters']['empty_filters'] is True:
+        # scheduler_default_filters line is missing
+        file.insert(validation_result['filters']['position'], filter_conf_line)
     else:
-        # scheduler_default_filters is present so find position
-        i = 0
-        for f in file:
-            if f[:25] == 'scheduler_default_filters':
-                file[i] = filter_conf_line
-                break
-            i += 1
+        # scheduler_default_filters line is present
+        file[validation_result['filters']['position']] = filter_conf_line
+    if validation_result['weights']['empty_weights'] is True:
+        file.insert(validation_result['weights']['position'], weight_conf_line)
+    else:
+        file[validation_result['weights']['position']] = weight_conf_line
+
     write_into_conf_file(file)
     # pprint.pprint(file)
 
@@ -71,6 +71,7 @@ def config_file_validation(file):
 
     # -----------------FilterScheduler Validator--------------------------------
     validation = {}
+    validation['filters'] = {}
     empty_filters_flag = True
     i = 0
     for f in file:
@@ -88,11 +89,13 @@ def config_file_validation(file):
             if f[:9] == 'scheduler' and ('scheduler' not in file[i+1] or '#' not in file[i+1]):
                  break
             i += 1
-    validation['empty_filters'] = empty_filters_flag
-    validation['position'] = i
+    validation['filters']['empty_filters'] = empty_filters_flag
+    validation['filters']['position'] = i
 
     # ---------------Weight Configuration Validator-----------------------------------
     # TODO this validation
+    i = 0
+    validation['weights'] = {}
     for f in file:
         if f[:64] == WEIGHT_CONFIG_LINE:
             empty_filters_flag = False
@@ -107,7 +110,9 @@ def config_file_validation(file):
             if f[:9] == 'scheduler' and ('scheduler' not in file[i+1] or '#' not in file[i+1]):
                  break
             i += 1
-    validation['empty_weights'] = empty_filters_flag
-    validation['position'] = i
+    validation['weights']['empty_weights'] = empty_filters_flag
+    validation['weights']['position'] = i
 
+
+    pprint.pprint(validation)
     return validation

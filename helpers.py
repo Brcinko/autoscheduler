@@ -49,7 +49,7 @@ def create_conf_doc(doc_definition, configurations):
     document['settings'] = []
     for d in doc_definition[0]['settings']:
         if d['filter_name'] in configurations['filters']:
-            print d['filter_name']
+            # print d['filter_name']
             documentx = {}
             documentx['conf_status'] = 'on'
             documentx['filter_name'] = d['filter_name']
@@ -75,7 +75,7 @@ def create_hosts_list_doc(doc_definition, hosts_list):
         hostx = {}
         hostx['host_name'] = h
         document['hosts']. append(hostx)
-    pprint.pprint(document)
+    # pprint.pprint(document)
     return document
 
 
