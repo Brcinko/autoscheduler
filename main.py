@@ -8,6 +8,7 @@ from settings import NOVA_CONF_FILE
 from scheduler_configurator import set_config
 import db_connector
 import helpers
+import analyzer
 import pprint
 
 # response from data analysis should be in this format
@@ -27,6 +28,7 @@ test_input = {
 
 
 def auto_scheduling():
+    analyze_response = analyzer.analyze_stats()
     # connect to DB
     db = db_connector.connect_to_db()
 
@@ -37,13 +39,13 @@ def auto_scheduling():
 
     # TODO module from statistic analyze
 
-    set_config(test_input)
-    update_config_db(db=db)
+    set_config(config_request=analyze_response)
+    update_config_db(db=db, configuration=analyze_response)
 
 
 
 
-def update_config_db(db):
+def update_config_db(db, configuration):
     # Get collection
     collection = db_connector.get_collection(collection_name='configurations', db=db)
     # Get 'configurations' document definition
@@ -55,8 +57,7 @@ def update_config_db(db):
     doc_definition = db_connector.get_sorted_documents(collection=collection, query=query, sort_query=sort)
     # Create document
     # TODO toto zmenit na produkciu
-    conf = test_input
-    doc = helpers.create_conf_doc(doc_definition=doc_definition, configurations=conf)
+    doc = helpers.create_conf_doc(doc_definition=doc_definition, configurations=configuration)
     # insert into DB
     db_connector.add_document(collection=collection, query=doc)
 
