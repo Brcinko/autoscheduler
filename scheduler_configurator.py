@@ -46,7 +46,7 @@ def create_filter_config_lines(filters):
 def create_weights_config_lines(weights):
     config_string = WEIGHT_CONFIG_LINE
     for w in weights:
-        config_string += w['weight_name'] + WEIGHT_TYPE_STRING + w['weight_value'] + '\n'
+        config_string += w['weight_name'] + WEIGHT_TYPE_STRING + str(w['weight_value']) + '\n'
     return config_string
 
 

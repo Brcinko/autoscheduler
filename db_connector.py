@@ -45,8 +45,8 @@ def get_max_date_document(collection):
     return document
 
 
-def get_sorted_documents(collection, query):
-    data = collection.find().sort(query)
+def get_sorted_documents(collection, query, sort_query):
+    data = collection.find(query).sort(sort_query['value'], sort_query['direction'])
     documents = list()
     for d in data:
         doc = json.loads(json_util.dumps(d))
@@ -54,6 +54,7 @@ def get_sorted_documents(collection, query):
         doc['meta']['date'] = str(d['meta']['date'])
         # print str(doc)
         documents.append(doc)
+        pprint.pprint(documents)
     return documents
 
 

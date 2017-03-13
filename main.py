@@ -32,7 +32,7 @@ def auto_scheduling():
 
     # get host list from OpenStack
     host_list = helpers.get_host_list()
-    pprint.pprint(host_list)
+    # pprint.pprint(host_list)
     update_hosts_list_db(db=db, host_list=host_list)
 
     # TODO module from statistic analyze
@@ -41,14 +41,18 @@ def auto_scheduling():
     update_config_db(db=db)
 
 
+
+
 def update_config_db(db):
     # Get collection
     collection = db_connector.get_collection(collection_name='configurations', db=db)
     # Get 'configurations' document definition
     query = {}
     query['meta.definition'] = True
-    query['meta.doc_version'] = -1  # DESCENDING ORDERING
-    doc_definition = db_connector.get_sorted_documents(collection=collection, query=query)
+    sort = {}
+    sort['value'] = 'meta.doc_version'
+    sort['direction'] = 1  # DESCENDING direction
+    doc_definition = db_connector.get_sorted_documents(collection=collection, query=query, sort_query=sort)
     # Create document
     # TODO toto zmenit na produkciu
     conf = test_input
@@ -63,8 +67,10 @@ def update_hosts_list_db(db, host_list):
     # Get 'configurations' document definition
     query = {}
     query['meta.definition'] = True
-    query['meta.doc_version'] = -1  # DESCENDING ORDERING
-    doc_definition = db_connector.get_sorted_documents(collection=collection, query=query)
+    sort = {}
+    sort['value'] = 'meta.doc_version'
+    sort['direction'] = 1   # DESCENDING Direction
+    doc_definition = db_connector.get_sorted_documents(collection=collection, query=query, sort_query=sort)
     doc = helpers.create_hosts_list_doc(doc_definition=doc_definition, hosts_list=host_list)
     # insert into DB
     db_connector.add_document(collection=collection, query=doc)
