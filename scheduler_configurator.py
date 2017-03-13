@@ -3,7 +3,7 @@
     FIIT Slovak University of Technology 2017
     This module is part of master thesis.
 """
-from settings import NOVA_CONF_FILE, FILTERS_CONFIG_LINE, WEIGHT_CONFIG_LINE, WEIGHT_TYPE_STRING
+from settings import NOVA_CONF_FILE, FILTERS_CONFIG_LINE, WEIGHT_CONFIG_LINE, WEIGHT_TYPE_STRING, ALLOWED_WEIGHTS
 import pprint
 
 
@@ -13,6 +13,11 @@ def set_config(config_request):
     file = read_conf_file()
     validation_result = config_file_validation(file)
     # print str(validation_result)
+
+    # TODO chceck if weights position is higher than filter position
+    for v in validation_result['weights']['weights_type']:
+        del(file[v['position']])
+
 
     if validation_result['filters']['empty_filters'] is True:
         # scheduler_default_filters line is missing
@@ -26,7 +31,7 @@ def set_config(config_request):
         file[validation_result['weights']['position']] = weight_conf_line
 
     write_into_conf_file(file)
-    # pprint.pprint(file)
+
 
 
 def create_filter_config_lines(filters):
@@ -112,7 +117,19 @@ def config_file_validation(file):
             i += 1
     validation['weights']['empty_weights'] = empty_filters_flag
     validation['weights']['position'] = i
+    # --Weight multiplicators validation--
 
+    validation['weights']['weights_type'] = []
+    for w in ALLOWED_WEIGHTS:
+        weight = str(w) + WEIGHT_TYPE_STRING
+        i = 0
+        for f in file:
+            wx = {}
+            if weight in f:
+                wx['weight_type_name'] = weight
+                wx['position'] = i
+                validation['weights']['weights_type'].append(wx)
+            i += 1
 
-    pprint.pprint(validation)
+    # pprint.pprint(validation)
     return validation
