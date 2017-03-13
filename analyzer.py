@@ -4,6 +4,9 @@
     This module is part of master thesis.
 """
 
+from settings import WEIGHTS_DICTIONARY
+import db_connector
+
 test_input = {
     'filters': ['CoreFilter', 'ComputeFilter', 'RamFilter'],
     'weights': [
@@ -19,7 +22,20 @@ test_input = {
 }
 
 
-def analyze_stats(db):
+def analyze_stats(db, hosts_list):
+    # get stats
+    query= '{ \'meta.doc_definition\': {$nin: True}}'
+    collection = db_connector.get_collection(db=db, collection_name='hosts_statistics')
+    documents = db_connector.get_documents(collection=collection, query=query)
 
-
+    for h in hosts_list:
+        pass
     return test_input
+
+
+def compute_variance():
+    pass
+
+
+def compute_multiplicator():
+    pass

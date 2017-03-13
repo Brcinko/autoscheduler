@@ -28,7 +28,7 @@ test_input = {
 
 
 def auto_scheduling():
-    analyze_response = analyzer.analyze_stats()
+
     # connect to DB
     db = db_connector.connect_to_db()
 
@@ -36,8 +36,8 @@ def auto_scheduling():
     host_list = helpers.get_host_list()
     # pprint.pprint(host_list)
     update_hosts_list_db(db=db, host_list=host_list)
-
-    # TODO module from statistic analyze
+    # analyzer module
+    analyze_response = analyzer.analyze_stats(db=db, hosts_list=host_list)
 
     set_config(config_request=analyze_response)
     update_config_db(db=db, configuration=analyze_response)
@@ -56,7 +56,6 @@ def update_config_db(db, configuration):
     sort['direction'] = 1  # DESCENDING direction
     doc_definition = db_connector.get_sorted_documents(collection=collection, query=query, sort_query=sort)
     # Create document
-    # TODO toto zmenit na produkciu
     doc = helpers.create_conf_doc(doc_definition=doc_definition, configurations=configuration)
     # insert into DB
     db_connector.add_document(collection=collection, query=doc)
