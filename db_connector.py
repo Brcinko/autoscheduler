@@ -24,7 +24,7 @@ def get_collection(db, collection_name):
 
 def get_documents(collection, query):
     data = collection.find(query)
-    pprint.pprint(data)
+    # pprint.pprint(data)
     documents = list()
     for d in data:
         doc = json.loads(json_util.dumps(d))

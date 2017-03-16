@@ -10,17 +10,17 @@ import pprint
 hosts_list = {
     "hosts": [
         {
-            "host_name": "b6e4adbc193d428ea923899d07fb001e",
+            "host_name": "host-01",
             "service": "conductor",
             "zone": "internal"
         },
         {
-            "host_name": "09c025b0efc64211bd23fc50fa974cdf",
+            "host_name": "host-02",
             "service": "compute",
             "zone": "nova"
         },
         {
-            "host_name": "e73ec0bd35c64de4a1adfa8b8969a1f6",
+            "host_name": "backup-host",
             "service": "consoleauth",
             "zone": "internal"
         },
