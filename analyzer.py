@@ -7,6 +7,7 @@
 from settings import WEIGHTS_DICTIONARY, DEFAULT_FILTERS
 import db_connector
 import pprint
+import math
 
 test_input = {
     'filters': ['CoreFilter', 'ComputeFilter', 'RamFilter'],
@@ -51,10 +52,10 @@ def analyze_stats(db, hosts_list):
                             #missing same unit check
                             # pprint.pprint(s['stat_name'])
                             host_stats_list.append(float(s['value']))
-            pprint.pprint(host_stats_list)
+            # pprint.pprint(host_stats_list)
             variance = compute_variance(stats=host_stats_list)
             hosts_variance.append(variance)
-        pprint.pprint(hosts_variance)
+        # pprint.pprint(hosts_variance)
         multiplicator = compute_multiplicator(variances=hosts_variance)
         # append new weight into response
         weightx = {}
@@ -70,6 +71,15 @@ def analyze_stats(db, hosts_list):
 
 # sem poslem list nameranych hodnot a vypocita to odchylku
 def compute_variance(stats):
+    if len(stats) > 0:
+        average = sum(stats) / len(stats)
+        print average
+        i = 0
+        for s in stats:
+            i += abs((s - average)*(s - average))
+        i = i / len(stats)
+        i = math.sqrt(i)
+        print i
     return 2.5
 
 
@@ -83,4 +93,6 @@ def compute_multiplicator(variances):
             i += 1
         elif 3.5 > v:
             i += 1.5
+    if i > 5:
+        i = 5
     return i
