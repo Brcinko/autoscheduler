@@ -9,17 +9,24 @@ import db_connector
 import settings
 import requests
 import pprint
+import json
+
 
 def ceilometer_auth():
-    r = requests.post(settings.KEYSTONE_ADDRESS, data='{"auth": {"passwordCredentials": {"username":"my-username", "password":"my-password"}}')
-    pprint.pprint(r)
-    r = requests.get(settings.CEILOEMETER_ADDRESS)
-    pprint.pprint(r)
+    r = requests.post(settings.KEYSTONE_ADDRESS)
+    pprint.pprint(r.text)
+    uri = settings.KEYSTONE_ADDRESS + settings.KEYSTONE_TOKEN_ROUTE
+    r = requests.post(uri, data='{"auth": {"tenant": "netcell-testing", "passwordCredentials": {"username":"admin", "password":"TATKO"}}}')
+    pprint.pprint(r.text)
+    response = r.json()
+    print response['access']['token']['id']
+    return token
+
 
 
 # Get stats from Ceilometer
 # Match stats for meters and ISODate
-def get_stats():
+def get_stats(token):
     stats = {}
     return stats
 
@@ -34,6 +41,6 @@ def save_stats(stats):
         db_connector.add_document(collection=collection, query=s)
 
 
-ceilometer_auth()
-# get_stats()
+token = ceilometer_auth()
+# get_stats(token=token)
 # save_stats()

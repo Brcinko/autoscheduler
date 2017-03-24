@@ -22,6 +22,8 @@ DEFAULT_FILTERS = ['CoreFilter', 'ComputeFilter', 'RamFilter']
 DB_PORT = 27017
 DB_ADDRESS = "localhost"
 
+
 # Ceilometer settings #
 CEILOEMETER_ADDRESS = "http://oscore.cloud.ngnlab.eu:8777"
-KEYSTONE_ADDRESS = "http://oscore.cloud.ngnlab.eu:5000/v2.0/tokens"
+KEYSTONE_ADDRESS = "http://oscore.cloud.ngnlab.eu:5000/v2.0"
+KEYSTONE_TOKEN_ROUTE = '/tokens'
