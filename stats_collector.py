@@ -11,6 +11,8 @@ import requests
 import pprint
 
 def ceilometer_auth():
+    r = requests.post(settings.KEYSTONE_ADDRESS, data='{"auth": {"passwordCredentials": {"username":"my-username", "password":"my-password"}}')
+    pprint.pprint(r)
     r = requests.get(settings.CEILOEMETER_ADDRESS)
     pprint.pprint(r)
 
