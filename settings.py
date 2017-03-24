@@ -21,3 +21,6 @@ DEFAULT_FILTERS = ['CoreFilter', 'ComputeFilter', 'RamFilter']
 # Database settings #
 DB_PORT = 27017
 DB_ADDRESS = "localhost"
+
+# Ceilometer settings #
+CEILOEMETER_ADDRESS = "http://oscore.cloud.ngnlab.eu:8777"

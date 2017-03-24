@@ -7,6 +7,12 @@
 import pymongo
 import db_connector
 import settings
+import requests
+import pprint
+
+def ceilometer_auth():
+    r = requests.get(settings.CEILOEMETER_ADDRESS)
+    pprint.pprint(r)
 
 
 # Get stats from Ceilometer
@@ -26,5 +32,6 @@ def save_stats(stats):
         db_connector.add_document(collection=collection, query=s)
 
 
-get_stats()
-save_stats()
+ceilometer_auth()
+# get_stats()
+# save_stats()
