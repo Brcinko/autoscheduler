@@ -25,5 +25,6 @@ DB_ADDRESS = "localhost"
 
 # Ceilometer settings #
 CEILOEMETER_ADDRESS = "http://oscore.cloud.ngnlab.eu:8777"
+CEILOMETER_SAMPLE_ROUTE = "/v2/samples?limit=5"
 KEYSTONE_ADDRESS = "http://oscore.cloud.ngnlab.eu:5000/v2.0"
 KEYSTONE_TOKEN_ROUTE = '/tokens'

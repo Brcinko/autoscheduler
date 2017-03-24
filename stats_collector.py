@@ -4,7 +4,6 @@
     This module is part of master thesis.
 """
 
-import pymongo
 import db_connector
 import settings
 import requests
@@ -23,10 +22,13 @@ def ceilometer_auth():
     return token
 
 
-
 # Get stats from Ceilometer
 # Match stats for meters and ISODate
 def get_stats(token):
+    header = {"X-Auth-Token": token}
+    uri = settings.CEILOEMETER_ADDRESS + settings.CEILOMETER_SAMPLE_ROUTE
+    r = requests.get(uri, header=header)
+    print r.json()
     stats = {}
     return stats
 
@@ -42,5 +44,5 @@ def save_stats(stats):
 
 
 token = ceilometer_auth()
-# get_stats(token=token)
+get_stats(token=token)
 # save_stats()
