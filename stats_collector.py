@@ -19,7 +19,7 @@ def ceilometer_auth():
     pprint.pprint(r.text)
     response = r.json()
     print response['access']['token']['id']
-    return token
+    return response['access']['token']['id']
 
 
 # Get stats from Ceilometer
