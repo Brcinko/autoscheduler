@@ -27,7 +27,7 @@ def ceilometer_auth():
 def get_stats(token):
     header = {"X-Auth-Token": token}
     uri = settings.CEILOEMETER_ADDRESS + settings.CEILOMETER_SAMPLE_ROUTE
-    r = requests.get(uri, header=header)
+    r = requests.get(uri, headers=header)
     print r.json()
     stats = {}
     return stats

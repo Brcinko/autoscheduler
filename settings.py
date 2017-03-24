@@ -1,3 +1,7 @@
+# Nova settings
+NOVA_ADDRESS = " http://oscore.cloud.ngnlab.eu:8774/v2"
+NOVA_HOST_LIST_ROUTE = '/os-hosts'
+
 # nova-scheduler setting #
 NOVA_CONF_FILE = "/etc/nova/nova.conf"
 FILTERS_CONFIG_LINE = "scheduler_default_filters = "

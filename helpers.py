@@ -6,6 +6,8 @@
 
 import datetime
 import pprint
+import requests
+import settings
 
 hosts_list = {
     "hosts": [
@@ -86,6 +88,18 @@ def get_host_list():
 
     # other way - API call GET /os-hosts
     # https://developer.openstack.org/api-ref/compute/?expanded=list-hosts-detail
+    r = requests.post(settings.KEYSTONE_ADDRESS)
+    pprint.pprint(r.text)
+    uri = settings.KEYSTONE_ADDRESS + settings.KEYSTONE_TOKEN_ROUTE
+    r = requests.post(uri,
+                      data='{"auth": {"tenant": "netcell-testing", "passwordCredentials": {"username":"admin", "password":"TATKO"}}}')
+    pprint.pprint(r.text)
+    response = r.json()
+    token = response['access']['token']['id']
+    header = {"X-Auth-Token": token}
+    uri = settings.NOVA_ADDRESS + settings.NOVA_HOST_LIST_ROUTE
+    r = requests.get(uri, headers=header)
+    print r.json()
 
     hosts = {}
     hosts['hosts'] = []
@@ -99,3 +113,4 @@ def get_host_list():
 
 def create_stat_doc(stat):
     pass
+
