@@ -95,3 +95,7 @@ def get_host_list():
     # unique list records - first option has a duplicated values
     hosts['hosts'] = list(set(hosts['hosts']))
     return hosts
+
+
+def create_stat_doc(stat):
+    pass
