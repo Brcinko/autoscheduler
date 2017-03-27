@@ -58,7 +58,7 @@ def update_config_db(db, configuration):
     doc = helpers.create_conf_doc(doc_definition=doc_definition[0], configurations=configuration)
     # insert into DB
     # pprint.pprint(doc)
-    # db_connector.add_document(collection=collection, query=doc)
+    db_connector.add_document(collection=collection, query=doc)
 
 
 def update_hosts_list_db(db, host_list):
