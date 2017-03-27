@@ -54,7 +54,7 @@ def get_sorted_documents(collection, query, sort_query):
         doc['meta']['date'] = str(d['meta']['date'])
         # print str(doc)
         documents.append(doc)
-        # pprint.pprint(documents)
+    # pprint.pprint(documents)
     return documents
 
 

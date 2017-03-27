@@ -43,8 +43,6 @@ def auto_scheduling():
     update_config_db(db=db, configuration=analyze_response)
 
 
-
-
 def update_config_db(db, configuration):
     # Get collection
     collection = db_connector.get_collection(collection_name='configurations', db=db)
@@ -53,12 +51,14 @@ def update_config_db(db, configuration):
     query['meta.definition'] = True
     sort = {}
     sort['value'] = 'meta.doc_version'
-    sort['direction'] = 1  # DESCENDING direction
+    sort['direction'] = -1  # DESCENDING direction
     doc_definition = db_connector.get_sorted_documents(collection=collection, query=query, sort_query=sort)
     # Create document
-    doc = helpers.create_conf_doc(doc_definition=doc_definition, configurations=configuration)
+    pprint.pprint(doc_definition[0])
+    doc = helpers.create_conf_doc(doc_definition=doc_definition[0], configurations=configuration)
     # insert into DB
-    db_connector.add_document(collection=collection, query=doc)
+    # pprint.pprint(doc)
+    # db_connector.add_document(collection=collection, query=doc)
 
 
 def update_hosts_list_db(db, host_list):

@@ -41,26 +41,34 @@ hosts_list = {
 
 
 def create_conf_doc(doc_definition, configurations):
-    # pprint.pprint(doc_definition[0]['settings'][0]['filter_name'])
+    # pprint.pprint(doc_definition['settings'])
     document = {}
     # metadata
     document['meta'] = {}
     document['meta']['date'] = datetime.datetime.utcnow()
-    document['meta']['doc_version'] = doc_definition[0]['meta']['doc_version']
+    document['meta']['doc_version'] = doc_definition['meta']['doc_version']
     # settings - filters
-    document['settings'] = []
-    for d in doc_definition[0]['settings']:
+    document['settings'] = {}
+    document['settings']['filters'] = []
+    document['settings']['weights'] = []
+    for d in doc_definition['settings']['filters']:
         if d['filter_name'] in configurations['filters']:
             # print d['filter_name']
             documentx = {}
             documentx['conf_status'] = 'on'
             documentx['filter_name'] = d['filter_name']
-            document['settings'].append(documentx)
+            document['settings']['filters'].append(documentx)
         else:
             documentx = {}
             documentx['conf_status'] = 'off'
             documentx['filter_name'] = d['filter_name']
-            document['settings'].append(documentx)
+            document['settings']['filters'].append(documentx)
+    for d in configurations['weights']:
+        documentx = {}
+        documentx['weight_name'] = d['weight_name']
+        documentx['weight_status'] = 'on'
+        documentx['weight_value'] = d['weight_value']
+        document['settings']['weights'].append(documentx)
     # pprint.pprint(document)
     return document
 
@@ -88,18 +96,7 @@ def get_host_list():
 
     # other way - API call GET /os-hosts
     # https://developer.openstack.org/api-ref/compute/?expanded=list-hosts-detail
-    r = requests.post(settings.KEYSTONE_ADDRESS)
-    pprint.pprint(r.text)
-    uri = settings.KEYSTONE_ADDRESS + settings.KEYSTONE_TOKEN_ROUTE
-    r = requests.post(uri,
-                      data='{"auth": {"tenant": "netcell-testing", "passwordCredentials": {"username":"admin", "password":"TATKO"}}}')
-    pprint.pprint(r.text)
-    response = r.json()
-    token = response['access']['token']['id']
-    header = {"X-Auth-Token": token}
-    uri = settings.NOVA_ADDRESS + settings.NOVA_HOST_LIST_ROUTE
-    r = requests.get(uri, headers=header)
-    print r.json()
+
 
     hosts = {}
     hosts['hosts'] = []
@@ -114,3 +111,17 @@ def get_host_list():
 def create_stat_doc(stat):
     pass
 
+def openstack_auth():
+    r = requests.post(settings.KEYSTONE_ADDRESS)
+    pprint.pprint(r.text)
+    uri = settings.KEYSTONE_ADDRESS + settings.KEYSTONE_TOKEN_ROUTE
+    r = requests.post(uri,
+                      data='{"auth": {"tenant": "netcell-testing", "passwordCredentials": {"username":"admin", "password":"TATKO"}}}')
+    pprint.pprint(r.text)
+    response = r.json()
+    token = response['access']['token']['id']
+    header = {"X-Auth-Token": token}
+    uri = settings.NOVA_ADDRESS + settings.NOVA_HOST_LIST_ROUTE
+    r = requests.get(uri, headers=header)
+    print r.json()
+    return r.json()
