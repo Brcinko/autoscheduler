@@ -1,6 +1,8 @@
 # Nova settings
 NOVA_ADDRESS = "http://oscore.cloud.ngnlab.eu:8774/v2"
 NOVA_HOST_LIST_ROUTE = '/os-hosts'
+TENANT_ID = "2ff4b9c0ef2645469b2d07d44a242a45"
+
 
 # nova-scheduler setting #
 NOVA_CONF_FILE = "/etc/nova/nova.conf"
@@ -19,6 +21,13 @@ WEIGHTS_DICTIONARY = [
     }
 ]
 
+
+# Ceilometer settings #
+CEILOEMETER_ADDRESS = "http://oscore.cloud.ngnlab.eu:8777"
+CEILOMETER_SAMPLE_ROUTE = "/v2/samples?limit=5"
+KEYSTONE_ADDRESS = "http://oscore.cloud.ngnlab.eu:5000/v2.0"
+KEYSTONE_TOKEN_ROUTE = '/tokens'
+
 DEFAULT_FILTERS = ['CoreFilter', 'ComputeFilter', 'RamFilter']
 
 
@@ -27,8 +36,3 @@ DB_PORT = 27017
 DB_ADDRESS = "localhost"
 
 
-# Ceilometer settings #
-CEILOEMETER_ADDRESS = "http://oscore.cloud.ngnlab.eu:8777"
-CEILOMETER_SAMPLE_ROUTE = "/v2/samples?limit=5"
-KEYSTONE_ADDRESS = "http://oscore.cloud.ngnlab.eu:5000/v2.0"
-KEYSTONE_TOKEN_ROUTE = '/tokens'
