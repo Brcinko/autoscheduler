@@ -8,6 +8,7 @@ import db_connector
 import settings
 import requests
 import pprint
+import helpers
 import json
 
 
@@ -28,8 +29,9 @@ def get_stats(token):
     header = {"X-Auth-Token": token}
     uri = settings.CEILOEMETER_ADDRESS + settings.CEILOMETER_SAMPLE_ROUTE
     r = requests.get(uri, headers=header)
-    print r.json()
-    stats = {}
+    # print r.json()
+    stats = r.json()
+    pprint.pprint(stats)
     return stats
 
 
@@ -43,6 +45,6 @@ def save_stats(stats):
         db_connector.add_document(collection=collection, query=s)
 
 
-token = ceilometer_auth()
+token = helpers.openstack_auth()
 get_stats(token=token)
 # save_stats()

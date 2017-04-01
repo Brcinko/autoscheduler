@@ -10,7 +10,7 @@ import pprint
 import math
 
 test_input = {
-    'filters': ['CoreFilter', 'ComputeFilter', 'RamFilter'],
+    'filters': ['CoreFilter', 'IoOpsFilter', 'RamFilter'],
     'weights': [
         {
             'weight_name': 'ram_weight',
@@ -29,7 +29,7 @@ def analyze_stats(db, hosts_list):
     # query = '{ \'meta.doc_definition\': {$nin: True}}'
     query = {}
     query['meta.doc_definition'] = {}
-    query['meta.doc_definition']['$nin'] = [True]
+    query['meta.definition']['$nin'] = [True]
     collection = db_connector.get_collection(db=db, collection_name='hosts_statistics')
     documents = db_connector.get_documents(collection=collection, query=query)
     response = {}

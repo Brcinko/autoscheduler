@@ -54,7 +54,7 @@ def update_config_db(db, configuration):
     sort['direction'] = -1  # DESCENDING direction
     doc_definition = db_connector.get_sorted_documents(collection=collection, query=query, sort_query=sort)
     # Create document
-    pprint.pprint(doc_definition[0])
+    # pprint.pprint(doc_definition[0])
     doc = helpers.create_conf_doc(doc_definition=doc_definition[0], configurations=configuration)
     # insert into DB
     # pprint.pprint(doc)
