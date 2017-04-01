@@ -98,7 +98,7 @@ def get_host_list():
     # https://developer.openstack.org/api-ref/compute/?expanded=list-hosts-detail
     token = openstack_auth()
     header = {"X-Auth-Token": token}
-    uri = settings.NOVA_ADDRESS + settings.NOVA_HOST_LIST_ROUTE
+    uri = settings.NOVA_ADDRESS + '/' + settings.TENANT_ID + settings.NOVA_HOST_LIST_ROUTE
     r = requests.get(uri, headers=header)
     response = r.json()
     pprint.pprint(response)
@@ -119,7 +119,7 @@ def create_stat_doc(stat):
 def openstack_auth():
     r = requests.post(settings.KEYSTONE_ADDRESS)
     # pprint.pprint(r.text)
-    uri = settings.KEYSTONE_ADDRESS + '/' + settings.TENANT_ID + settings.KEYSTONE_TOKEN_ROUTE
+    uri = settings.KEYSTONE_ADDRESS + settings.KEYSTONE_TOKEN_ROUTE
     r = requests.post(uri,
                       data='{"auth": {"tenant": "netcell-testing", "passwordCredentials": {"username":"admin", "password":"TATKO"}}}')
     # pprint.pprint(r.text)
