@@ -91,11 +91,7 @@ def create_hosts_list_doc(doc_definition, hosts_list):
 
 # get list of physical servers from OpenStack
 def get_host_list():
-    # possible way, with following command
-    # https://ask.openstack.org/en/question/67928/list-of-available-hosts/
-
-    # other way - API call GET /os-hosts
-    # https://developer.openstack.org/api-ref/compute/?expanded=list-hosts-detail
+    # GET auth credentials
     token = openstack_auth()
     header = {"X-Auth-Token": token}
     uri = settings.NOVA_ADDRESS + '/' + settings.TENANT_ID + settings.NOVA_HOST_LIST_ROUTE
@@ -104,11 +100,12 @@ def get_host_list():
     pprint.pprint(response)
     hosts = {}
     hosts['hosts'] = []
-    for h in hosts_list['hosts']:
+    for h in response['hosts']:
         hosts['hosts'].append(h['host_name'])
 
     # unique list records - first option has a duplicated values
     hosts['hosts'] = list(set(hosts['hosts']))
+    pprint.pprint(hosts)
     return hosts
 
 
@@ -121,7 +118,7 @@ def openstack_auth():
     # pprint.pprint(r.text)
     uri = settings.KEYSTONE_ADDRESS + settings.KEYSTONE_TOKEN_ROUTE
     r = requests.post(uri,
-                      data='{"auth": {"tenant": "netcell-testing", "passwordCredentials": {"username":"admin", "password":"TATKO"}}}')
+                      data='{"auth": {"tenantName": "netcell-testing", "passwordCredentials": {"username":"admin", "password":"TATKO"}}}')
     # pprint.pprint(r.text)
     response = r.json()
     token = response['access']['token']['id']
