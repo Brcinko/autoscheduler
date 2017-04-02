@@ -141,8 +141,8 @@ def openstack_auth():
     # pprint.pprint(r.text)
     uri = settings.KEYSTONE_ADDRESS + settings.KEYSTONE_TOKEN_ROUTE
     r = requests.post(uri,
-                      data='{"auth": {"tenantName": "netcell-testing", "passwordCredentials": {"username":'
-                        + settings.OPENSTACK_USERNAME + ', "password":' + settings.OPENSTACK_PASSWORD + '}}}')
+                      data='{"auth": {"tenantName": "netcell-testing", "passwordCredentials": {"username":"'
+                           + settings.OPENSTACK_USERNAME + '", "password":"' + settings.OPENSTACK_PASSWORD + '"}}}')
     # pprint.pprint(r.text)
     response = r.json()
     token = response['access']['token']['id']
