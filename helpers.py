@@ -124,4 +124,4 @@ def openstack_auth():
     token = response['access']['token']['id']
     return token
 
-get_host_list()
+# get_host_list()
