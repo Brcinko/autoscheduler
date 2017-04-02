@@ -9,6 +9,7 @@ import pprint
 import requests
 import settings
 
+
 hosts_list = {
     "hosts": [
         {
@@ -40,6 +41,7 @@ hosts_list = {
 }
 
 
+# serialize configuration date which are given
 def create_conf_doc(doc_definition, configurations):
     # pprint.pprint(doc_definition['settings'])
     document = {}
@@ -73,6 +75,7 @@ def create_conf_doc(doc_definition, configurations):
     return document
 
 
+# return list of active host in cloud
 def create_hosts_list_doc(doc_definition, hosts_list):
     document = {}
     # metadata
@@ -103,16 +106,36 @@ def get_host_list():
     for h in response['hosts']:
         hosts['hosts'].append(h['host_name'])
 
-    # unique list records - first option has a duplicated values
+    # unique list records - there are duplicated values in response from nova
     hosts['hosts'] = list(set(hosts['hosts']))
     pprint.pprint(hosts)
     return hosts
 
 
-def create_stat_doc(stat):
-    pass
+# Return list of serialized stat documents
+def create_stats_docs(stat, host_list, doc_definition):
+    documents = []
+    for h in host_list['host_list']:
+        docx = {}
+        docx['stats'] = []
+        for s in stat['sample_stat']:
+            # db_connector.add_document(collection=collection, query=s)
+            if h == s['meta']['host_id']:
+                docx['meta'] = {}
+                docx['meta']['host_id'] = s['meta']['host_id']
+                docx['meta']['date'] = s['meta']['date']
+                docx['meta']['doc_version'] = doc_definition['meta']['doc_version']
+                statx = {}
+                statx['value'] = s['stat']['value']
+                statx['stat_name'] = s['stat']['stat_name']
+                statx['unit'] = s['stat']['unit']
+                docx['stats'].append(statx)
+        documents.append(docx)
+
+    return documents
 
 
+# Modul for athentication with OpenStack which return auth token
 def openstack_auth():
     r = requests.post(settings.KEYSTONE_ADDRESS)
     # pprint.pprint(r.text)

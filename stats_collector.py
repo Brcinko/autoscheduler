@@ -29,34 +29,39 @@ def get_stats(token):
         # TODO switch commented condition !!!! IMPORTANT !!!!
         sample_date = datetime.strptime(s['timestamp'][:10], "%Y-%m-%d")
         if sample_date == datetime.strptime("2017-01-30", "%Y-%m-%d"):
-	# if sample_date == date.today():
+        # if sample_date == date.today():
             print str(sample_date)
-	    statx = {}
-	    statx['meta'] = {}
-	    statx['meta']['host_id'] = s['metadata']['node']
-	    statx['meta']['date'] = sample_date
-	    statx['stat'] = {}
-	    statx['stat']['stat_name'] = s['meter']
-	    statx['stat']['value'] = s['volume']
-	    statx['stat']['unit'] = s['unit']
-	    stats['sample_stat'].append(statx)
+            statx = {}
+            statx['meta'] = {}
+            statx['meta']['host_id'] = s['metadata']['node']
+            statx['meta']['date'] = sample_date
+            statx['stat'] = {}
+            statx['stat']['stat_name'] = s['meter']
+            statx['stat']['value'] = s['volume']
+            statx['stat']['unit'] = s['unit']
+            stats['sample_stat'].append(statx)
         else:
             print str(date.today())
     return stats
 
 
-# Serialize pairs of stats from Ceilometer
-# Put serialized stats into autoscheduler_db
-def save_stats(stats):
-    pprint.pprint(stats)
-    db = db_connector.connect_to_db()
-    collection = db_connector.get_collection(collection_name='hosts_statistics', db=db)
-    serialized_stats = {}
-    for s in stats:
-        db_connector.add_document(collection=collection, query=s)
-
-
 token = helpers.openstack_auth()
 stats = get_stats(token=token)
-save_stats(stats)
+
+
+"""
+get_stats RESPONSE EXAMPLE
+
+{'sample_stat': [{'meta': {'date': datetime.datetime(2017, 1, 30, 0, 0),
+                           'host_id': u'oscompute-1'},
+                  'stat': {'stat_name': u'disk.ephemeral.size',
+                           'unit': u'GB',
+                           'value': 0.0}},
+                 {'meta': {'date': datetime.datetime(2017, 1, 30, 0, 0),
+                           'host_id': u'oscompute-1'},
+                  'stat': {'stat_name': u'disk.ephemeral.size',
+                           'unit': u'GB',
+                           'value': 0.0}}]}
+
+"""
 

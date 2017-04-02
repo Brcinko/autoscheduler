@@ -9,6 +9,7 @@ from scheduler_configurator import set_config
 import db_connector
 import helpers
 import analyzer
+import stats_collector
 import pprint
 
 # response from data analysis should be in this format
@@ -36,6 +37,13 @@ def auto_scheduling():
     host_list = helpers.get_host_list()
     # pprint.pprint(host_list)
     update_hosts_list_db(db=db, host_list=host_list)
+
+    # get stats from ceilometer
+    # authentication
+    token = helpers.openstack_auth()
+    stats = stats_collector.get_stats(token)
+
+
     # analyzer module
     analyze_response = analyzer.analyze_stats(db=db, hosts_list=host_list)
 
@@ -74,5 +82,25 @@ def update_hosts_list_db(db, host_list):
     doc = helpers.create_hosts_list_doc(doc_definition=doc_definition, hosts_list=host_list)
     # insert into DB
     db_connector.add_document(collection=collection, query=doc)
+
+
+def update_stat_db(db, host_list, stats):
+    # Get collection
+    collection = db_connector.get_collection(collection_name='hosts_statistics', db=db)
+    # Get 'configurations' document definition
+    query = {}
+    query['meta.definition'] = True
+    sort = {}
+    sort['value'] = 'meta.doc_version'
+    sort['direction'] = 1  # DESCENDING Direction
+    doc_definition = db_connector.get_sorted_documents(collection=collection, query=query, sort_query=sort)
+    # get serialized stats
+    documents = helpers.create_stats_docs(stat=stats, host_list=host_list, doc_definition=doc_definition)
+    pprint.pprint(documents)
+    # store serialized stats into db
+    for d in documents:
+        # db_connector.add_document(collection=collection, query=d)
+        pass
+
 
 auto_scheduling()
