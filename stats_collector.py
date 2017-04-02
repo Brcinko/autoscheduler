@@ -10,6 +10,7 @@ import requests
 import pprint
 import helpers
 import json
+import datetime
 
 
 def ceilometer_auth():
@@ -32,6 +33,13 @@ def get_stats(token):
     # print r.json()
     stats = r.json()
     pprint.pprint(stats)
+    for s in stats:
+        # if s['timestamp']
+        sample_date = datetime.strptime(s['timestamp'], "%Y-%m-%d %H:%M:%S")
+        if sample_date == datetime.date.today():
+            print str(sample_date)
+        else:
+            print str(datetime.date.today())
     return stats
 
 
