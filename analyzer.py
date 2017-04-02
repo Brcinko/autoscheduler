@@ -28,7 +28,7 @@ def analyze_stats(db, hosts_list):
     # get stats
     # query = '{ \'meta.doc_definition\': {$nin: True}}'
     query = {}
-    query['meta.doc_definition'] = {}
+    query['meta.definition'] = {}
     query['meta.definition']['$nin'] = [True]
     collection = db_connector.get_collection(db=db, collection_name='hosts_statistics')
     documents = db_connector.get_documents(collection=collection, query=query)

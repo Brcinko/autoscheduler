@@ -115,7 +115,7 @@ def get_host_list():
 # Return list of serialized stat documents
 def create_stats_docs(stat, host_list, doc_definition):
     documents = []
-    for h in host_list['host_list']:
+    for h in host_list['hosts']:
         docx = {}
         docx['stats'] = []
         for s in stat['sample_stat']:
@@ -141,7 +141,8 @@ def openstack_auth():
     # pprint.pprint(r.text)
     uri = settings.KEYSTONE_ADDRESS + settings.KEYSTONE_TOKEN_ROUTE
     r = requests.post(uri,
-                      data='{"auth": {"tenantName": "netcell-testing", "passwordCredentials": {"username":"admin", "password":"TATKO"}}}')
+                      data='{"auth": {"tenantName": "netcell-testing", "passwordCredentials": {"username":'
+                        + settings.OPENSTACK_USERNAME + ', "password":' + settings.OPENSTACK_PASSWORD + '}}}')
     # pprint.pprint(r.text)
     response = r.json()
     token = response['access']['token']['id']

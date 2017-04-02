@@ -3,6 +3,9 @@ NOVA_ADDRESS = "http://oscore.cloud.ngnlab.eu:8774/v2"
 NOVA_HOST_LIST_ROUTE = '/os-hosts'
 TENANT_ID = "2ff4b9c0ef2645469b2d07d44a242a45"
 
+OPENSTACK_USERNAME = "admin"
+OPENSTACK_PASSWORD = "TATKO"
+
 
 # nova-scheduler setting #
 NOVA_CONF_FILE = "/etc/nova/nova.conf"
