@@ -35,6 +35,8 @@ def analyze_stats(db, hosts_list):
     response = {}
     response['filters'] = []
     response['weights'] = []
+    stat_name = ""
+    multiplicators = []
     # ------------------WEIGHT ANALYSIS------------------------
     for w in WEIGHTS_DICTIONARY:
         # pprint.pprint(w)
@@ -47,21 +49,38 @@ def analyze_stats(db, hosts_list):
                 if h == d['meta']['host_id']:
                     for s in d['stats']:
                         # TODO .used and .average in stats are NOT the same - some distinguisher must be provide
+                        # TODO WARNING .total is in production not .average!!!!
                         # pprint.pprint(s)
-                        if w['stats_name'] in s['stat_name']:
+                        stat_name = w['stats_name'] + ".used"
+                        if stat_name in s['stat_name']:
                             #missing same unit check
                             # pprint.pprint(s['stat_name'])
                             host_stats_list.append(float(s['value']))
+
+                        breakpoint_name = s['stat_name'] = w['stats_name'] + ".average"
+                        if breakpoint_name in s['stat_name']:
+                            value = s['value'].replace(",", ".")
+                            breakpoint = float(value) * 0.1
+
+
+
             # pprint.pprint(host_stats_list)
             variance = compute_variance(stats=host_stats_list)
+            # print variance
             hosts_variance.append(variance)
         # pprint.pprint(hosts_variance)
-        multiplicator = compute_multiplicator(variances=hosts_variance)
+        multiplicatorx = compute_multiplicator(variances=hosts_variance, breakpoint=breakpoint)
+        pprint.pprint(multiplicatorx)
+        multiplicator = get_max_weight(weight_list=multiplicatorx)
+        print multiplicator
+        multiplicators.append(multiplicator)
         # append new weight into response
         weightx = {}
         weightx['weight_name'] = w['weight_name']
         weightx['weight_value'] = multiplicator
         response['weights'].append(weightx)
+
+
 
     # -------------FILTER ANALYSIS-----------------------------
     response['filters'] = DEFAULT_FILTERS
@@ -71,28 +90,43 @@ def analyze_stats(db, hosts_list):
 
 # sem poslem list nameranych hodnot a vypocita to odchylku
 def compute_variance(stats):
+    i = None
     if len(stats) > 0:
         average = sum(stats) / len(stats)
-        print average
+        # print average
         i = 0
         for s in stats:
             i += abs((s - average)*(s - average))
         i = i / len(stats)
         i = math.sqrt(i)
-        print i
-    return 2.5
+        # print i
+    return i
 
 
-# sem poslem odchylku kazdeho stroja a vypocyta to vyslednu vahu
-def compute_multiplicator(variances):
+# sem poslem odchylku stroja a hranicnu hodnotu a vypocitam multiplicator pre stroj
+def compute_multiplicator(variances, breakpoint):
+    weight_list = []
     i = 0
     for v in variances:
-        if v >= 1.0 and v <= 2.5:
-            i += 0.5
-        elif 2.5 > v <= 3.5:
-            i += 1
-        elif 3.5 > v:
-            i += 1.5
-    if i > 5:
-        i = 5
-    return i
+        if v is not None:
+            # TODO remove *10
+            v = v * 10
+            if v <= breakpoint:
+                i = 1.0
+            elif breakpoint > v <= (breakpoint * 2):
+                i = 1.5
+            elif (breakpoint * 2) > v <= (breakpoint * 3):
+                i = 2
+            elif (breakpoint *3) > v <=(breakpoint * 4):
+                i = 2.5
+            elif v > (breakpoint * 4):
+                i = 3
+            weight_list.append(i)
+    return weight_list
+
+
+def get_max_weight(weight_list):
+    if weight_list:
+        return max(weight_list)
+    pass
+

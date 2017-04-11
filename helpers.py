@@ -100,7 +100,7 @@ def get_host_list():
     uri = settings.NOVA_ADDRESS + '/' + settings.TENANT_ID + settings.NOVA_HOST_LIST_ROUTE
     r = requests.get(uri, headers=header)
     response = r.json()
-    pprint.pprint(response)
+    # pprint.pprint(response)
     hosts = {}
     hosts['hosts'] = []
     for h in response['hosts']:

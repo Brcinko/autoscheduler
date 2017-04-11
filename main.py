@@ -35,7 +35,7 @@ def auto_scheduling():
 
     # get host list from OpenStack
     host_list = helpers.get_host_list()
-    # pprint.pprint(host_list)
+
     update_hosts_list_db(db=db, host_list=host_list)
 
     # get stats from ceilometer
