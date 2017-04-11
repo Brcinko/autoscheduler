@@ -1,0 +1,4 @@
+pymongo==3.4.0
+Flask==0.12
+Flask_Cors==3.0.2
+Requests==2.13.0
