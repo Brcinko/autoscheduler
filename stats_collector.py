@@ -15,6 +15,7 @@ import json
 import datetime
 
 
+# ------method for getting memory info from files-----
 def get_memory_stats():
 
     with open('memory.txt') as json_data:
@@ -24,9 +25,7 @@ def get_memory_stats():
     response = []
     for r in d:
         sample_date = datetime.datetime.strptime(str(r['meta']['date'])[:10], "%Y-%m-%d")
-        print str(sample_date)[:10], datetime.date.today()
-	if str(sample_date)[:10] == str(datetime.date.today()):
-            print "daco"
+    if str(sample_date)[:10] == str(datetime.date.today()):
             response.append(r)
 
     return response
