@@ -1,5 +1,6 @@
 import subprocess
 import datetime
+import json
 
 host_id = 'os-compute'
 comm_file = "memory.txt"
@@ -30,6 +31,8 @@ print str(record)
 r = []
 r.append(record)
 r.append(record2)
+
+r = json.loads(r)
 
 with open(comm_file, "a") as myfile:
     myfile.write(str(r))

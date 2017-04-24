@@ -17,7 +17,7 @@ from datetime import date
 def get_memory_stats():
 
     with open('memory.txt') as json_data:
-        d = json.load(json_data)
+        d = json.loads(json_data)
 
     print d
     response = []
