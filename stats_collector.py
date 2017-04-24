@@ -14,6 +14,7 @@ from datetime import datetime
 from datetime import date
 
 
+
 # Get stats from Ceilometer
 # Match stats for meters and ISODate
 def get_stats(token):
@@ -28,8 +29,8 @@ def get_stats(token):
     for s in samples:
         # TODO switch commented condition !!!! IMPORTANT !!!!
         sample_date = datetime.strptime(s['timestamp'][:10], "%Y-%m-%d")
-        if sample_date == datetime.strptime("2017-01-30", "%Y-%m-%d"):
-        # if sample_date == date.today():
+        # if sample_date == datetime.strptime("2017-01-30", "%Y-%m-%d"):
+        if sample_date == date.today():
             print str(sample_date)
             statx = {}
             statx['meta'] = {}
@@ -42,6 +43,11 @@ def get_stats(token):
             stats['sample_stat'].append(statx)
         else:
             print str(date.today())
+    # workaround of not working hardware.memory sensor
+    if settings.MEMORY_FROM_FILE is True:
+        response = get_memory_stats()
+        stats['sample_stat'] += response
+
     return stats
 
 
@@ -65,3 +71,17 @@ get_stats RESPONSE EXAMPLE
 
 """
 
+def get_memory_stats():
+
+
+    with open('memory.txt') as json_data:
+        d = json.load(json_data)
+
+    print d
+    response = []
+    for r in d:
+        sample_date = datetime.strptime(r['timestamp'][:10], "%Y-%m-%d")
+        if sample_date == date.today():
+            response.append(r)
+
+    return r

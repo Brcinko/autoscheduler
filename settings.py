@@ -38,4 +38,4 @@ DEFAULT_FILTERS = ['CoreFilter', 'ComputeFilter', 'RamFilter']
 DB_PORT = 27017
 DB_ADDRESS = "localhost"
 
-
+MEMORY_FROM_FILE = True
