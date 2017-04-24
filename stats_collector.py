@@ -10,20 +10,20 @@ import requests
 import pprint
 import helpers
 import json
-from datetime import datetime
-from datetime import date
-
+# from datetime import datetime
+# from datetime import date
+import datetime
 
 def get_memory_stats():
 
     with open('memory.txt') as json_data:
-        d = json.loads(json_data)
-
+        d = json_data.read()
+        d = eval(d)
     print d
     response = []
     for r in d:
-        sample_date = datetime.strptime(r['timestamp'][:10], "%Y-%m-%d")
-        if sample_date == date.today():
+        sample_date = datetime.datetime.strptime(r['timestamp'][:10], "%Y-%m-%d")
+        if sample_date == datetime.date.today():
             response.append(r)
 
     return r
@@ -44,7 +44,7 @@ def get_stats(token):
         # TODO switch commented condition !!!! IMPORTANT !!!!
         sample_date = datetime.strptime(s['timestamp'][:10], "%Y-%m-%d")
         # if sample_date == datetime.strptime("2017-01-30", "%Y-%m-%d"):
-        if sample_date == date.today():
+        if sample_date == datetime.date.today():
             print str(sample_date)
             statx = {}
             statx['meta'] = {}

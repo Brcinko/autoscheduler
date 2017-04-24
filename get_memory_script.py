@@ -2,7 +2,7 @@ import subprocess
 import datetime
 import json
 
-host_id = 'os-compute'
+host_id = 'oscompute-x'
 comm_file = "memory.txt"
 
 ram = subprocess.Popen("free -m | grep Mem | tr -s ' ' | cut -d ' ' -f 2,3", shell=True, stdout=subprocess.PIPE).stdout.read()
@@ -32,7 +32,6 @@ r = []
 r.append(record)
 r.append(record2)
 
-r = json.loads(r)
 
 with open(comm_file, "a") as myfile:
     myfile.write(str(r))
