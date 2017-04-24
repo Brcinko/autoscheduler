@@ -27,9 +27,12 @@ record2['stat']['unit'] = "MB"
 
 print str(record)
 
+r = []
+r.append(record)
+r.append(record2)
+
 with open(comm_file, "a") as myfile:
-    myfile.write(str(record))
-    myfile.write(str(record2))
+    myfile.write(str(r))
 
 
 

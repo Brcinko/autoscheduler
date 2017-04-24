@@ -14,6 +14,20 @@ from datetime import datetime
 from datetime import date
 
 
+def get_memory_stats():
+
+    with open('memory.txt') as json_data:
+        d = json.load(json_data)
+
+    print d
+    response = []
+    for r in d:
+        sample_date = datetime.strptime(r['timestamp'][:10], "%Y-%m-%d")
+        if sample_date == date.today():
+            response.append(r)
+
+    return r
+
 
 # Get stats from Ceilometer
 # Match stats for meters and ISODate
@@ -71,17 +85,3 @@ get_stats RESPONSE EXAMPLE
 
 """
 
-def get_memory_stats():
-
-
-    with open('memory.txt') as json_data:
-        d = json.load(json_data)
-
-    print d
-    response = []
-    for r in d:
-        sample_date = datetime.strptime(r['timestamp'][:10], "%Y-%m-%d")
-        if sample_date == date.today():
-            response.append(r)
-
-    return r
