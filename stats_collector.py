@@ -14,19 +14,22 @@ import json
 # from datetime import date
 import datetime
 
+
 def get_memory_stats():
 
     with open('memory.txt') as json_data:
         d = json_data.read()
         d = eval(d)
-    print d
+    # print d
     response = []
     for r in d:
-        sample_date = datetime.datetime.strptime(r['timestamp'][:10], "%Y-%m-%d")
-        if sample_date == datetime.date.today():
+        sample_date = datetime.datetime.strptime(str(r['meta']['date'])[:10], "%Y-%m-%d")
+        print str(sample_date)[:10], datetime.date.today()
+	if str(sample_date)[:10] == str(datetime.date.today()):
+            print "daco"
             response.append(r)
 
-    return r
+    return response
 
 
 # Get stats from Ceilometer
@@ -42,10 +45,10 @@ def get_stats(token):
     stats['sample_stat'] = []
     for s in samples:
         # TODO switch commented condition !!!! IMPORTANT !!!!
-        sample_date = datetime.strptime(s['timestamp'][:10], "%Y-%m-%d")
-        # if sample_date == datetime.strptime("2017-01-30", "%Y-%m-%d"):
-        if sample_date == datetime.date.today():
-            print str(sample_date)
+        sample_date = datetime.datetime.strptime(s['timestamp'][:10], "%Y-%m-%d")
+        if sample_date == datetime.datetime.strptime("2014-01-30", "%Y-%m-%d"):
+        # if sample_date == datetime.date.today():
+            # print str(sample_date)
             statx = {}
             statx['meta'] = {}
             statx['meta']['host_id'] = s['metadata']['node']
@@ -56,12 +59,14 @@ def get_stats(token):
             statx['stat']['unit'] = s['unit']
             stats['sample_stat'].append(statx)
         else:
-            print str(date.today())
+            pass
+            # print str(datetime.date.today())
     # workaround of not working hardware.memory sensor
     if settings.MEMORY_FROM_FILE is True:
         response = get_memory_stats()
+        print response
         stats['sample_stat'] += response
-
+    # print stats
     return stats
 
 
