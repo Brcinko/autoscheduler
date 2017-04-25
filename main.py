@@ -42,7 +42,7 @@ def auto_scheduling():
     # authentication
     token = helpers.openstack_auth()
     stats = stats_collector.get_stats(token)
-
+    print stats
     update_stat_db(db=db, host_list=host_list, stats=stats)
 
 
@@ -102,7 +102,7 @@ def update_stat_db(db, host_list, stats):
     # store serialized stats into db
     for d in documents:
         if d['stats']:
-            # db_connector.add_document(collection=collection, query=d)
+            db_connector.add_document(collection=collection, query=d)
             pass
 
 

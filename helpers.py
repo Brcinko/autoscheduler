@@ -108,7 +108,6 @@ def get_host_list():
 
     # unique list records - there are duplicated values in response from nova
     hosts['hosts'] = list(set(hosts['hosts']))
-    pprint.pprint(hosts)
     return hosts
 
 
@@ -131,7 +130,7 @@ def create_stats_docs(stat, host_list, doc_definition):
                 statx['unit'] = s['stat']['unit']
                 docx['stats'].append(statx)
         documents.append(docx)
-
+    pprint.pprint("vytvorene dokumenty pre statistiky")
     return documents
 
 

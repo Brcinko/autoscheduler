@@ -14,7 +14,7 @@ record['meta']['host_id'] = host_id
 record['meta']['date'] = datetime.datetime.utcnow()
 record['stat'] = {}
 record['stat']['stat_name'] = "hardware.memory.total"
-record['stat']['value'] = ram[0]
+record['stat']['value'] = str(ram[0])
 record['stat']['unit'] = "MB"
 
 record2 = {}
@@ -23,10 +23,9 @@ record2['meta']['host_id'] = host_id
 record2['meta']['date'] = datetime.datetime.utcnow()
 record2['stat'] = {}
 record2['stat']['stat_name'] = "hardware.memory.used"
-record2['stat']['value'] = ram[1]
+record2['stat']['value'] = str(ram[1])
 record2['stat']['unit'] = "MB"
 
-print str(record)
 
 r = []
 r.append(record)

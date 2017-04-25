@@ -21,13 +21,14 @@ def get_memory_stats():
     with open('memory.txt') as json_data:
         d = json_data.read()
         d = eval(d)
-    # print d
     response = []
+    
     for r in d:
         sample_date = datetime.datetime.strptime(str(r['meta']['date'])[:10], "%Y-%m-%d")
-    if str(sample_date)[:10] == str(datetime.date.today()):
+        if str(sample_date)[:10] == str(datetime.date.today()):
             response.append(r)
-
+            print "PRIDAVAM"
+            pprint.pprint(r)
     return response
 
 
@@ -62,8 +63,9 @@ def get_stats(token):
             # print str(datetime.date.today())
     # workaround of not working hardware.memory sensor
     if settings.MEMORY_FROM_FILE is True:
-        response = get_memory_stats()
-        print response
+        print "PRVY"
+	response = get_memory_stats()
+        # print response
         stats['sample_stat'] += response
     # print stats
     return stats

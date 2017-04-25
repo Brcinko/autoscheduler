@@ -59,7 +59,7 @@ def analyze_stats(db, hosts_list):
 
                         breakpoint_name = s['stat_name'] = w['stats_name'] + ".average"
                         if breakpoint_name in s['stat_name']:
-                            value = s['value'].replace(",", ".")
+                            value = str(s['value']).replace(",", ".")
                             breakpoint = float(value) * 0.1
 
 
