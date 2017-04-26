@@ -10,19 +10,22 @@ import requests
 import pprint
 import helpers
 import json
-# from datetime import datetime
-# from datetime import date
 import datetime
 
 
 # ------method for getting memory info from files-----
 def get_memory_stats():
 
-    with open('memory.txt') as json_data:
-        d = json_data.read()
+    with open('memory1.txt') as data:
+        d = data.read()
         d = eval(d)
+    with open('memory2.txt') as data:
+        c = data.read()
+        c = eval(c)
+
+    d += c
     response = []
-    
+        
     for r in d:
         sample_date = datetime.datetime.strptime(str(r['meta']['date'])[:10], "%Y-%m-%d")
         if str(sample_date)[:10] == str(datetime.date.today()):
