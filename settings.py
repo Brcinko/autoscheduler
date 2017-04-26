@@ -9,7 +9,7 @@ OPENSTACK_PASSWORD = "TATKO"
 
 # nova-scheduler setting #
 NOVA_CONF_FILE = "/etc/nova/nova.conf.autoscheduler"
-FILTERS_CONFIG_LINE = "scheduler_driver = nova.scheduler.filter_scheduler.FilterScheduler\nscheduler_available_filters = nova.scheduler.filters.all_filters\nscheduler_default_filters = "
+FILTERS_CONFIG_LINE = "scheduler_default_filters = "
 WEIGHT_CONFIG_LINE = "scheduler_weight_classes = nova.scheduler.weights.all_weighers\n"
 WEIGHT_TYPE_STRING = "_multiplier = "
 ALLOWED_WEIGHTS = ['io_ops_weight', 'ram_weight']

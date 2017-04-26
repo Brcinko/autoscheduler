@@ -48,7 +48,7 @@ def create_filter_config_lines(filters):
 
 
 def create_weights_config_lines(weights):
-    config_string = WEIGHT_CONFIG_LINE
+    config_string = ""
     for w in weights:
         config_string += w['weight_name'] + WEIGHT_TYPE_STRING + str(w['weight_value']) + '\n'
     return config_string
@@ -91,7 +91,6 @@ def config_file_validation(file):
         default_section = 0
         for f in file:
             # right side of condition is not working, i am fine with that
-            print f
             if f[:9] == 'scheduler' and ('scheduler' not in file[i+1] or '#' not in file[i+1]):
                  break
             if '# AUTOSCHEDULER FILTERS' in f:
@@ -136,5 +135,5 @@ def config_file_validation(file):
                 validation['weights']['weights_type'].append(wx)
             i += 1
 
-    # pprint.pprint(validation)
+    pprint.pprint(validation)
     return validation
