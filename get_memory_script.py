@@ -31,9 +31,21 @@ r = []
 r.append(record)
 r.append(record2)
 
+with open(comm_file) as myfile:
+    d = myfile.read()
+    if d:
+        d = eval(d)
+        r += d
+
+if d:
+    with open(comm_file, "w") as f:
+        f.truncate()
+
 
 with open(comm_file, "a") as myfile:
     myfile.write(str(r))
+
+
 
 
 

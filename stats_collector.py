@@ -67,7 +67,7 @@ def get_stats(token):
     # workaround of not working hardware.memory sensor
     if settings.MEMORY_FROM_FILE is True:
         print "PRVY"
-	response = get_memory_stats()
+        response = get_memory_stats()
         # print response
         stats['sample_stat'] += response
     # print stats
