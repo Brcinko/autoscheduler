@@ -70,11 +70,12 @@ def analyze_stats(db, hosts_list):
             hosts_variance.append(variance)
         # pprint.pprint(hosts_variance)
         multiplicatorx = compute_multiplicator(variances=hosts_variance, breakpoint=breakpoint)
-        pprint.pprint(multiplicatorx)
+        
         multiplicator = get_max_weight(weight_list=multiplicatorx)
-        print multiplicator
         multiplicators.append(multiplicator)
         # append new weight into response
+        if not multiplicator:
+	    multiplicator = "1.0"
         weightx = {}
         weightx['weight_name'] = w['weight_name']
         weightx['weight_value'] = multiplicator

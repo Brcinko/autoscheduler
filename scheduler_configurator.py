@@ -21,7 +21,6 @@ def set_config(config_request):
     if validation_result['filters']['empty_filters'] is True:
         # scheduler_default_filters line is missing
         file.insert(validation_result['filters']['position'], filter_conf_line)
-        print validation_result['filters']['position'], filter_conf_line
     else:
         # scheduler_default_filters line is present
         file[validation_result['filters']['position']] = filter_conf_line
@@ -51,6 +50,7 @@ def create_weights_config_lines(weights):
     config_string = ""
     for w in weights:
         config_string += w['weight_name'] + WEIGHT_TYPE_STRING + str(w['weight_value']) + '\n'
+    config_string += '\n'
     return config_string
 
 
@@ -90,9 +90,6 @@ def config_file_validation(file):
         i = 0
         default_section = 0
         for f in file:
-            # right side of condition is not working, i am fine with that
-            if f[:9] == 'scheduler' and ('scheduler' not in file[i+1] or '#' not in file[i+1]):
-                 break
             if '# AUTOSCHEDULER FILTERS' in f:
                 i += 1
                 break
@@ -105,7 +102,7 @@ def config_file_validation(file):
     i = 0
     validation['weights'] = {}
     for f in file:
-        if f[:64] == WEIGHT_CONFIG_LINE:
+        if "weight_multiplier" in f:
             empty_filters_flag = False
             break
         i += 1
@@ -135,5 +132,4 @@ def config_file_validation(file):
                 validation['weights']['weights_type'].append(wx)
             i += 1
 
-    pprint.pprint(validation)
     return validation

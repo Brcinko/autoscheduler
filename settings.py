@@ -7,6 +7,7 @@ OPENSTACK_USERNAME = "admin"
 OPENSTACK_PASSWORD = "TATKO"
 
 
+
 # nova-scheduler setting #
 NOVA_CONF_FILE = "/etc/nova/nova.conf.autoscheduler"
 FILTERS_CONFIG_LINE = "scheduler_default_filters = "
