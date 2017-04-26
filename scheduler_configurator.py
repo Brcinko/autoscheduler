@@ -21,6 +21,7 @@ def set_config(config_request):
     if validation_result['filters']['empty_filters'] is True:
         # scheduler_default_filters line is missing
         file.insert(validation_result['filters']['position'], filter_conf_line)
+        print validation_result['filters']['position'], filter_conf_line
     else:
         # scheduler_default_filters line is present
         file[validation_result['filters']['position']] = filter_conf_line
@@ -87,10 +88,14 @@ def config_file_validation(file):
     # if filter configuration line is missing find position for this config line
     if empty_filters_flag is True:
         i = 0
+        default_section = 0
         for f in file:
             # right side of condition is not working, i am fine with that
             if f[:9] == 'scheduler' and ('scheduler' not in file[i+1] or '#' not in file[i+1]):
                  break
+            if '# AUTOSCHEDULER' in f:
+                i += 1
+                break
             i += 1
     validation['filters']['empty_filters'] = empty_filters_flag
     validation['filters']['position'] = i

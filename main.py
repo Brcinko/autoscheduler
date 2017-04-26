@@ -49,7 +49,7 @@ def auto_scheduling():
     # analyzer module
     analyze_response = analyzer.analyze_stats(db=db, hosts_list=host_list)
 
-    # set_config(config_request=analyze_response)
+    set_config(config_request=analyze_response)
     update_config_db(db=db, configuration=analyze_response)
 
 
