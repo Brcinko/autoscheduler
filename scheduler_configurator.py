@@ -91,9 +91,10 @@ def config_file_validation(file):
         default_section = 0
         for f in file:
             # right side of condition is not working, i am fine with that
+            print f
             if f[:9] == 'scheduler' and ('scheduler' not in file[i+1] or '#' not in file[i+1]):
                  break
-            if '# AUTOSCHEDULER' in f:
+            if '# AUTOSCHEDULER FILTERS' in f:
                 i += 1
                 break
             i += 1
@@ -115,8 +116,9 @@ def config_file_validation(file):
         i = 0
         for f in file:
             # right side of condition is not working, i am fine with that
-            if f[:9] == 'scheduler' and ('scheduler' not in file[i+1] or '#' not in file[i+1]):
-                 break
+            if "# AUTOSCHEDULER WEIGHTS" in f:
+                i += 1
+                break
             i += 1
     validation['weights']['empty_weights'] = empty_filters_flag
     validation['weights']['position'] = i
