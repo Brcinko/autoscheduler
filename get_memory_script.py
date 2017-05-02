@@ -31,6 +31,31 @@ r = []
 r.append(record)
 r.append(record2)
 
+
+ram2 = subprocess.Popen("sudo iotop -bok --iter=5 -d 5 | grep '|' | tr ':' ' ' | tr -s ' ' | cut -d ' ' -f 10", shell=True, stdout=subprocess.PIPE).stdout.read()
+
+
+ram2 = str(ram2).split()
+
+i = 0
+for j in ram2:
+    record = {}
+    record['meta'] = {}
+    record['meta']['host_id'] = host_id
+    record['meta']['date'] = datetime.datetime.utcnow()
+    record['stat'] = {}
+    record['stat']['value'] = str(j)
+    record['stat']['unit'] = "KB/s"
+    if int(i) % 2 == 0:
+        record['stat']['stat_name'] = "hardware.system_stats.io.total"
+    else:
+        record['stat']['stat_name'] = "hardware.system_stats.io.used"
+    r.append(record)
+    i += 1
+
+
+
+
 with open(comm_file) as myfile:
     d = myfile.read()
     if d:
