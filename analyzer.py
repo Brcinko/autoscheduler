@@ -55,7 +55,7 @@ def analyze_stats(db, hosts_list):
                             # pprint.pprint(s['stat_name'])
                             host_stats_list.append(float(s['value']))
 
-                        breakpoint_name = s['stat_name'] = w['stats_name'] + ".total"
+                        breakpoint_name = w['stats_name'] + ".total"
                         if breakpoint_name in s['stat_name']:
                             value = str(s['value']).replace(",", ".")
                             breakpoint = float(value) * 0.1

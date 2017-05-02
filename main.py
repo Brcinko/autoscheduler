@@ -43,7 +43,7 @@ def auto_scheduling():
     token = helpers.openstack_auth()
     stats = stats_collector.get_stats(token)
     #print stats
-    update_stat_db(db=db, host_list=host_list, stats=stats)
+    # update_stat_db(db=db, host_list=host_list, stats=stats)
 
 
     # analyzer module
