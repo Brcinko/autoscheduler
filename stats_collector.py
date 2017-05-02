@@ -66,7 +66,6 @@ def get_stats(token):
             # print str(datetime.date.today())
     # workaround of not working hardware.memory sensor
     if settings.MEMORY_FROM_FILE is True:
-        print "PRVY"
         response = get_memory_stats()
         # print response
         stats['sample_stat'] += response

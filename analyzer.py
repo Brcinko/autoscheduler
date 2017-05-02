@@ -73,12 +73,11 @@ def analyze_stats(db, hosts_list):
         multiplicators.append(multiplicator)
         # append new weight into response
         if not multiplicator:
-	    multiplicator = "1.0"
+            multiplicator = "1.0"
         weightx = {}
         weightx['weight_name'] = w['weight_name']
         weightx['weight_value'] = multiplicator
         response['weights'].append(weightx)
-
 
 
     # -------------FILTER ANALYSIS-----------------------------
@@ -108,8 +107,6 @@ def compute_multiplicator(variances, breakpoint):
     i = 0
     for v in variances:
         if v is not None:
-            # TODO remove *10
-            v = v * 10
             if v <= breakpoint:
                 i = 1.0
             elif breakpoint > v <= (breakpoint * 2):
