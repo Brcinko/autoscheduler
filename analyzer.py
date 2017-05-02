@@ -48,8 +48,6 @@ def analyze_stats(db, hosts_list):
                 # pprint.pprint(h)
                 if h == d['meta']['host_id']:
                     for s in d['stats']:
-                        # TODO .used and .average in stats are NOT the same - some distinguisher must be provide
-                        # TODO WARNING .total is in production not .average!!!!
                         # pprint.pprint(s)
                         stat_name = w['stats_name'] + ".used"
                         if stat_name in s['stat_name']:
@@ -57,7 +55,7 @@ def analyze_stats(db, hosts_list):
                             # pprint.pprint(s['stat_name'])
                             host_stats_list.append(float(s['value']))
 
-                        breakpoint_name = s['stat_name'] = w['stats_name'] + ".average"
+                        breakpoint_name = s['stat_name'] = w['stats_name'] + ".total"
                         if breakpoint_name in s['stat_name']:
                             value = str(s['value']).replace(",", ".")
                             breakpoint = float(value) * 0.1
@@ -66,12 +64,12 @@ def analyze_stats(db, hosts_list):
 
             # pprint.pprint(host_stats_list)
             variance = compute_variance(stats=host_stats_list)
-            # print variance
             hosts_variance.append(variance)
-        # pprint.pprint(hosts_variance)
-        multiplicatorx = compute_multiplicator(variances=hosts_variance, breakpoint=breakpoint)
-        
+        pprint.pprint(hosts_variance)
+        print "BRAEKPOINT: ", breakpoint
+        multiplicatorx = compute_multiplicator(variances=hosts_variance, breakpoint=breakpoint)        
         multiplicator = get_max_weight(weight_list=multiplicatorx)
+        print multiplicatorx
         multiplicators.append(multiplicator)
         # append new weight into response
         if not multiplicator:

@@ -30,8 +30,8 @@ def get_memory_stats():
         sample_date = datetime.datetime.strptime(str(r['meta']['date'])[:10], "%Y-%m-%d")
         if str(sample_date)[:10] == str(datetime.date.today()):
             response.append(r)
-            print "PRIDAVAM"
-            pprint.pprint(r)
+            # print "PRIDAVAM"
+            # pprint.pprint(r)
     return response
 
 

@@ -42,12 +42,13 @@ def auto_scheduling():
     # authentication
     token = helpers.openstack_auth()
     stats = stats_collector.get_stats(token)
-    print stats
+    #print stats
     update_stat_db(db=db, host_list=host_list, stats=stats)
 
 
     # analyzer module
     analyze_response = analyzer.analyze_stats(db=db, hosts_list=host_list)
+    print analyze_response
 
     set_config(config_request=analyze_response)
     update_config_db(db=db, configuration=analyze_response)
