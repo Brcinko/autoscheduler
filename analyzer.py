@@ -37,6 +37,7 @@ def analyze_stats(db, hosts_list):
     response['weights'] = []
     stat_name = ""
     multiplicators = []
+    breakpoint = 0
     # ------------------WEIGHT ANALYSIS------------------------
     for w in WEIGHTS_DICTIONARY:
         # pprint.pprint(w)
@@ -58,13 +59,15 @@ def analyze_stats(db, hosts_list):
                         breakpoint_name = w['stats_name'] + ".total"
                         if breakpoint_name in s['stat_name']:
                             value = str(s['value']).replace(",", ".")
-                            breakpoint = float(value) * 0.1
+			    breakpoint = float(value) * 0.01
+			if breakpoint_name == "hardware.system_stats.io.total":
+			    breakpoint = 8
 
             # pprint.pprint(host_stats_list)
             variance = compute_variance(stats=host_stats_list, breakpoint=breakpoint)
             hosts_variance.append(variance)
         pprint.pprint(hosts_variance)
-        print "BRAEKPOINT: ", breakpoint
+        print hosts_variance
         multiplicatorx = compute_multiplicator(variances=hosts_variance)
         multiplicator = get_max_weight(weight_list=multiplicatorx)
         print multiplicatorx
@@ -87,6 +90,7 @@ def analyze_stats(db, hosts_list):
 # sem poslem list nameranych hodnot a vypocita to odchylku
 def compute_variance(stats, breakpoint):
     i = None
+    response = {}
     if len(stats) > 0:
         average = sum(stats) / len(stats)
         # print average
@@ -96,10 +100,9 @@ def compute_variance(stats, breakpoint):
         i = i / len(stats)
         i = math.sqrt(i)
         # print i
-        response = {}
         response['variance'] = i
         response['breakpoint'] = breakpoint
-    return i
+    return response
 
 
 # sem poslem odchylku stroja a hranicnu hodnotu a vypocitam multiplicator pre stroj
@@ -107,18 +110,19 @@ def compute_multiplicator(variances):
     weight_list = []
     i = 0
     for v in variances:
-        if v['variance'] is not None:
-            if v['variance'] <= v['breakpoint']:
-                i = 1.0
-            elif v['breakpoint'] > v['variance'] <= (v['breakpoint'] * 2):
-                i = 1.5
-            elif (v['breakpoint'] * 2) > v['variance'] <= (v['breakpoint'] * 3):
-                i = 2
-            elif (v['breakpoint'] *3) > v['variance'] <=(v['breakpoint'] * 4):
-                i = 2.5
-            elif v['variance'] > (v['breakpoint'] * 4):
-                i = 3
-            weight_list.append(i)
+        if v:
+	    if v['variance']:
+                if v['variance'] <= v['breakpoint']:
+                    i = 1.0
+                elif v['breakpoint'] > v['variance'] <= (v['breakpoint'] * 2):
+                    i = 1.5
+                elif (v['breakpoint'] * 2) > v['variance'] <= (v['breakpoint'] * 3):
+                    i = 2
+                elif (v['breakpoint'] *3) > v['variance'] <=(v['breakpoint'] * 4):
+                    i = 2.5
+                elif v['variance'] > (v['breakpoint'] * 4):
+                    i = 3
+                weight_list.append(i)
     return weight_list
 
 
