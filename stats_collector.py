@@ -25,10 +25,11 @@ def get_memory_stats():
 
     d += c
     response = []
-        
+    # yesterday = datetime.date.today() - datetime.timedelta(1)   
     for r in d:
         sample_date = datetime.datetime.strptime(str(r['meta']['date'])[:10], "%Y-%m-%d")
-        if str(sample_date)[:10] == str(datetime.date.today()):
+	# if str(sample_date)[:10] == str(yesterday):
+	if str(sample_date)[:10] == str(datetime.date.today()):
             response.append(r)
             # print "PRIDAVAM"
             # pprint.pprint(r)
@@ -49,9 +50,9 @@ def get_stats(token):
     for s in samples:
         # TODO switch commented condition !!!! IMPORTANT !!!!
         sample_date = datetime.datetime.strptime(s['timestamp'][:10], "%Y-%m-%d")
-        if sample_date == datetime.datetime.strptime("2014-01-30", "%Y-%m-%d"):
-        # if sample_date == datetime.date.today():
-            # print str(sample_date)
+        # if sample_date == datetime.datetime.strptime("2014-01-30", "%Y-%m-%d"):
+        if sample_date == datetime.date.today():
+            # print str(sample_date), s['meter']
             statx = {}
             statx['meta'] = {}
             statx['meta']['host_id'] = s['metadata']['node']
@@ -63,6 +64,7 @@ def get_stats(token):
             stats['sample_stat'].append(statx)
         else:
             pass
+	    # print sample_date
             # print str(datetime.date.today())
     # workaround of not working hardware.memory sensor
     if settings.MEMORY_FROM_FILE is True:

@@ -14,7 +14,6 @@ def set_config(config_request):
     validation_result = config_file_validation(file)
     # print str(validation_result)
 
-    # TODO chceck if weights position is higher than filter position
     for v in validation_result['weights']['weights_type']:
         del(file[v['position']])
 

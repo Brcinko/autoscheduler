@@ -43,7 +43,7 @@ def auto_scheduling():
     token = helpers.openstack_auth()
     stats = stats_collector.get_stats(token)
     #print stats
-    # update_stat_db(db=db, host_list=host_list, stats=stats)
+    update_stat_db(db=db, host_list=host_list, stats=stats)
 
 
     # analyzer module
@@ -99,7 +99,7 @@ def update_stat_db(db, host_list, stats):
     doc_definition = db_connector.get_sorted_documents(collection=collection, query=query, sort_query=sort)
     # get serialized stats
     documents = helpers.create_stats_docs(stat=stats, host_list=host_list, doc_definition=doc_definition[0])
-    pprint.pprint(documents)
+    # pprint.pprint(documents)
     # store serialized stats into db
     for d in documents:
         if d['stats']:

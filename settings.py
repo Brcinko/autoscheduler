@@ -9,7 +9,7 @@ OPENSTACK_PASSWORD = "TATKO"
 
 
 # nova-scheduler setting #
-NOVA_CONF_FILE = "/etc/nova/nova.conf.autoscheduler"
+NOVA_CONF_FILE = "/etc/nova/nova.conf"
 FILTERS_CONFIG_LINE = "scheduler_default_filters = "
 WEIGHT_CONFIG_LINE = "scheduler_weight_classes = nova.scheduler.weights.all_weighers\n"
 WEIGHT_TYPE_STRING = "_multiplier = "
@@ -32,7 +32,7 @@ CEILOMETER_SAMPLE_ROUTE = "/v2/samples?limit=5"
 KEYSTONE_ADDRESS = "http://oscore.cloud.ngnlab.eu:5000/v2.0"
 KEYSTONE_TOKEN_ROUTE = '/tokens'
 
-DEFAULT_FILTERS = ['CoreFilter', 'ComputeFilter', 'RamFilter']
+DEFAULT_FILTERS = ['CoreFilter', 'ComputeFilter', 'RamFilter', 'DiskFilter', 'IoOpsFilter']
 
 
 # Database settings #

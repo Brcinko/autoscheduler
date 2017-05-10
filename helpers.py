@@ -130,7 +130,6 @@ def create_stats_docs(stat, host_list, doc_definition):
                 statx['unit'] = s['stat']['unit']
                 docx['stats'].append(statx)
         documents.append(docx)
-    pprint.pprint("vytvorene dokumenty pre statistiky")
     return documents
 
 
